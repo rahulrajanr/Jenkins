@@ -1,0 +1,26 @@
+pipeline {
+  agent any
+  tools {
+  maven 'mvn'
+  }
+   triggers {
+        pollSCM '* * * * *'
+    }
+      
+        stages {
+            stage('scm') {
+                steps{
+                git credentialsId: '1e42ba4a-c5fe-4594-8768-3fd99a32c675', url: 'git@github.com:rahulrajanr/jenkinstest-tomcat.git'
+                }
+               
+
+            }
+            stage('build') {
+                   steps{
+                    sh 'mvn -B -DskipTests clean package'
+                    echo "Build done" 
+                    }
+            }
+        }
+    
+}
